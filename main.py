@@ -5,12 +5,24 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
+from keys import key_details
 import cv2
 import pyautogui
 from PIL import Image
 from datetime import date, timedelta, datetime
 from urllib.parse import urljoin
 import time
+
+def answer_form():
+    WebDriverWait(driver,100).until(EC.visibility_of_element_located((By.ID,'questionItem')))
+    keys = key_details()
+    print(keys['employee_num'])
+    questions = driver.find_elements(By.ID,'questionItem')
+    for q in questions:
+        question = q.find_element(By.CLASS_NAME,'text-format-content')
+        if question == 'Employee Number':
+            emp_num = q.find_element(By.ID,'textInput')
+            emp_num.send_keys(keys['employee_num'])
 
 driver = webdriver.Chrome()
 options = Options()
@@ -36,11 +48,11 @@ if parking_folder:
             print("QR Code Data:", data)
             driver.switch_to.new_window('tab')
             driver.get(data)
+            answer_form()
             time.sleep(30)
             result = pyautogui.screenshot()
             result.save('result.png')
         else:
             print("No QR code found.")
-
-
+            
 time.sleep(20)
