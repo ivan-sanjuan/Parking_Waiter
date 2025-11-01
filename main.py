@@ -14,15 +14,55 @@ from urllib.parse import urljoin
 import time
 
 def answer_form():
-    WebDriverWait(driver,100).until(EC.visibility_of_element_located((By.ID,'questionItem')))
     keys = key_details()
-    print(keys['employee_num'])
-    questions = driver.find_elements(By.ID,'questionItem')
-    for q in questions:
-        question = q.find_element(By.CLASS_NAME,'text-format-content')
-        if question == 'Employee Number':
-            emp_num = q.find_element(By.ID,'textInput')
-            emp_num.send_keys(keys['employee_num'])
+    test = WebDriverWait(driver,100).until(EC.visibility_of_element_located((By.CSS_SELECTOR,'[data-automation-id="questionItem"]')))
+    if test.is_displayed():
+        questions = driver.find_elements(By.CSS_SELECTOR,'[data-automation-id="questionItem"]')
+        for q in questions:
+            question = q.find_element(By.CLASS_NAME,'text-format-content').text.strip()
+            if question == 'Employee Number':
+                driver.execute_script("arguments[0].scrollIntoView();",q)
+                time.sleep(2)
+                emp_num = q.find_element(By.CSS_SELECTOR,'[data-automation-id="textInput"]')
+                emp_num.send_keys(keys[0]['employee_num'])
+            elif question == 'Last Name':
+                driver.execute_script("arguments[0].scrollIntoView();",q)
+                time.sleep(2)
+                emp_num = q.find_element(By.CSS_SELECTOR,'[data-automation-id="textInput"]')
+                emp_num.send_keys(keys[0]['last_name'])
+            elif question == 'First Name':
+                driver.execute_script("arguments[0].scrollIntoView();",q)
+                time.sleep(2)
+                emp_num = q.find_element(By.CSS_SELECTOR,'[data-automation-id="textInput"]')
+                emp_num.send_keys(keys[0]['first_name'])
+            elif question == 'Vehicle Make and Model':
+                driver.execute_script("arguments[0].scrollIntoView();",q)
+                time.sleep(2)
+                emp_num = q.find_element(By.CSS_SELECTOR,'[data-automation-id="textInput"]')
+                emp_num.send_keys(keys[0]['vehicle'])
+            elif question == 'Plate Number':
+                driver.execute_script("arguments[0].scrollIntoView();",q)
+                time.sleep(2)
+                emp_num = q.find_element(By.CSS_SELECTOR,'[data-automation-id="textInput"]')
+                emp_num.send_keys(keys[0]['plate_num'])
+            elif question.startswith('Shift'):
+                driver.execute_script("arguments[0].scrollIntoView();",q)
+                time.sleep(2)
+                emp_num = q.find_element(By.CSS_SELECTOR,'[data-automation-id="textInput"]')
+                emp_num.send_keys(keys[0]['shift'])
+            elif question.startswith('Workdays'):
+                driver.execute_script("arguments[0].scrollIntoView();",q)
+                time.sleep(2)
+                q.find_element(By.CSS_SELECTOR,'input[value="Monday"]').click()
+                q.find_element(By.CSS_SELECTOR,'input[value="Tuesday"]').click()
+                q.find_element(By.CSS_SELECTOR,'input[value="Wednesday"]').click()
+                q.find_element(By.CSS_SELECTOR,'input[value="Thursday"]').click()
+                q.find_element(By.CSS_SELECTOR,'input[value="Friday"]').click()
+        time.sleep(5)
+        submit = driver.find_element(By.CSS_SELECTOR,'[data-automation-id="submitButton"]')
+        driver.execute_script("arguments[0].scrollIntoView();",submit)
+        time.sleep(5)
+        driver.execute_script("arguments[0].click();",submit)
 
 driver = webdriver.Chrome()
 options = Options()
@@ -33,12 +73,12 @@ parking_folder = WebDriverWait(driver,250).until(EC.presence_of_element_located(
 if parking_folder:
     driver.execute_script("arguments[0].click();",parking_folder)
     time.sleep(60)
-    unread = WebDriverWait(driver,250).until(EC.presence_of_element_located((By.CSS_SELECTOR,'[aria-label*="Unread"]')))
+    unread = WebDriverWait(driver,28800).until(EC.presence_of_element_located((By.CSS_SELECTOR,'[aria-label*="Unread"]')))
     driver.execute_script("arguments[0].scrollIntoView();",unread)
     WebDriverWait(driver,250).until(EC.visibility_of_element_located((By.CSS_SELECTOR,'[aria-label*="Unread"]')))
     if unread:
         ActionChains(driver).click(unread).perform()
-        time.sleep(90)
+        time.sleep(90) #return to 90
         screenshot = pyautogui.screenshot()
         screenshot.save('screen.png')
         img = cv2.imread("screen.png")
@@ -52,6 +92,7 @@ if parking_folder:
             time.sleep(30)
             result = pyautogui.screenshot()
             result.save('result.png')
+            print('RESERVATION SUCCESSFUL.')
         else:
             print("No QR code found.")
             
