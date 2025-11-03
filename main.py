@@ -15,7 +15,7 @@ import time
 
 def answer_form():
     keys = key_details()
-    start = WebDriverWait(driver,100).until(EC.element_to_be_clickable((By.LINK_TEXT,'Start now')))
+    start = WebDriverWait(driver,100).until(EC.visibility_of_element_located((By.XPATH,'//*[@id="form-main-content1"]/div/button')))
     driver.execute_script("arguments[0].click();",start)
     test = WebDriverWait(driver,100).until(EC.visibility_of_element_located((By.CSS_SELECTOR,'[data-automation-id="questionItem"]')))
     if test.is_displayed():
@@ -64,7 +64,7 @@ def answer_form():
         submit = driver.find_element(By.CSS_SELECTOR,'[data-automation-id="submitButton"]')
         driver.execute_script("arguments[0].scrollIntoView();",submit)
         time.sleep(5)
-        # driver.execute_script("arguments[0].click();",submit)
+        driver.execute_script("arguments[0].click();",submit)
 
 driver = webdriver.Chrome()
 options = Options()
@@ -74,7 +74,7 @@ driver.get(url)
 parking_folder = WebDriverWait(driver,250).until(EC.presence_of_element_located((By.CSS_SELECTOR,'[data-folder-name="parking"]')))
 if parking_folder:
     driver.execute_script("arguments[0].click();",parking_folder)
-    time.sleep(60)
+    time.sleep(60) #return to 60
     unread = WebDriverWait(driver,39600).until(EC.presence_of_element_located((By.CSS_SELECTOR,'[aria-label*="Unread"]')))
     driver.execute_script("arguments[0].scrollIntoView();",unread)
     WebDriverWait(driver,250).until(EC.visibility_of_element_located((By.CSS_SELECTOR,'[aria-label*="Unread"]')))
@@ -91,7 +91,7 @@ if parking_folder:
             driver.switch_to.new_window('tab')
             driver.get(data)
             answer_form()
-            time.sleep(30)
+            # time.sleep(30) #return to 30 // can be removed
             result = pyautogui.screenshot()
             result.save('result.png')
             print('RESERVATION SUCCESSFUL.')
