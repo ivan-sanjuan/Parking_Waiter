@@ -13,6 +13,10 @@ from datetime import date, timedelta, datetime
 from urllib.parse import urljoin
 import time
 
+# REMINDERS:
+# 1. Check that email grouping is disabled.
+# 2. Check if Reading pane is set to Fill screen.
+
 def answer_form():
     keys = key_details()
     start = WebDriverWait(driver,100).until(EC.visibility_of_element_located((By.XPATH,'//*[@id="form-main-content1"]/div/button')))
