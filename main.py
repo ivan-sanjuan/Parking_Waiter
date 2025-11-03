@@ -15,6 +15,8 @@ import time
 
 def answer_form():
     keys = key_details()
+    start = WebDriverWait(driver,100).until(EC.element_to_be_clickable((By.LINK_TEXT,'Start now')))
+    driver.execute_script("arguments[0].click();",start)
     test = WebDriverWait(driver,100).until(EC.visibility_of_element_located((By.CSS_SELECTOR,'[data-automation-id="questionItem"]')))
     if test.is_displayed():
         questions = driver.find_elements(By.CSS_SELECTOR,'[data-automation-id="questionItem"]')
@@ -62,7 +64,7 @@ def answer_form():
         submit = driver.find_element(By.CSS_SELECTOR,'[data-automation-id="submitButton"]')
         driver.execute_script("arguments[0].scrollIntoView();",submit)
         time.sleep(5)
-        driver.execute_script("arguments[0].click();",submit)
+        # driver.execute_script("arguments[0].click();",submit)
 
 driver = webdriver.Chrome()
 options = Options()
@@ -73,7 +75,7 @@ parking_folder = WebDriverWait(driver,250).until(EC.presence_of_element_located(
 if parking_folder:
     driver.execute_script("arguments[0].click();",parking_folder)
     time.sleep(60)
-    unread = WebDriverWait(driver,28800).until(EC.presence_of_element_located((By.CSS_SELECTOR,'[aria-label*="Unread"]')))
+    unread = WebDriverWait(driver,39600).until(EC.presence_of_element_located((By.CSS_SELECTOR,'[aria-label*="Unread"]')))
     driver.execute_script("arguments[0].scrollIntoView();",unread)
     WebDriverWait(driver,250).until(EC.visibility_of_element_located((By.CSS_SELECTOR,'[aria-label*="Unread"]')))
     if unread:
