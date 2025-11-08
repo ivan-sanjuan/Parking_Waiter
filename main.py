@@ -101,5 +101,6 @@ if parking_folder:
             print('RESERVATION SUCCESSFUL.')
         else:
             print("No QR code found.")
-            
+
+driver.quit()
 time.sleep(20)
