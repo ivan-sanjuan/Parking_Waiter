@@ -78,13 +78,13 @@ driver.get(url)
 parking_folder = WebDriverWait(driver,250).until(EC.presence_of_element_located((By.CSS_SELECTOR,'[data-folder-name="parking"]')))
 if parking_folder:
     driver.execute_script("arguments[0].click();",parking_folder)
-    time.sleep(60) #return to 60
+    time.sleep(10) #return to 60
     unread = WebDriverWait(driver,39600).until(EC.presence_of_element_located((By.CSS_SELECTOR,'[aria-label*="Unread"]')))
     driver.execute_script("arguments[0].scrollIntoView();",unread)
     WebDriverWait(driver,250).until(EC.visibility_of_element_located((By.CSS_SELECTOR,'[aria-label*="Unread"]')))
     if unread:
         ActionChains(driver).click(unread).perform()
-        time.sleep(90) #return to 90
+        time.sleep(10) #return to 90
         screenshot = pyautogui.screenshot()
         screenshot.save('screen.png')
         img = cv2.imread("screen.png")
@@ -98,9 +98,16 @@ if parking_folder:
             # time.sleep(30) #return to 30 // can be removed
             result = pyautogui.screenshot()
             result.save('result.png')
-            print('RESERVATION SUCCESSFUL.')
+            print('RESERVATION via QR, SUCCESSFUL.')
+        elif not data:
+            message_body = driver.find_element(By.CSS_SELECTOR,'[aria-label="Message body"]')
+            link = message_body.find_element(By.TAG_NAME,'a').get_attribute('href')
+            driver.switch_to.new_window('tab')
+            driver.get(link)
+            answer_form()
+            print('RESERVATION via LINK, SUCCESSFUL.')
         else:
-            print("No QR code found.")
+            print("No Link or QR code found.")
 
 driver.quit()
 time.sleep(20)
