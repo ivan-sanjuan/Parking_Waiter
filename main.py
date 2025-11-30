@@ -85,29 +85,35 @@ if parking_folder:
     if unread:
         ActionChains(driver).click(unread).perform()
         time.sleep(10) #return to 90
-        screenshot = pyautogui.screenshot()
-        screenshot.save('screen.png')
-        img = cv2.imread("screen.png")
-        detector = cv2.QRCodeDetector()
-        data, bbox, _ = detector.detectAndDecode(img)
-        if data:
-            print("QR Code Data:", data)
-            driver.switch_to.new_window('tab')
-            driver.get(data)
-            answer_form()
-            # time.sleep(30) #return to 30 // can be removed
-            result = pyautogui.screenshot()
-            result.save('result.png')
-            print('RESERVATION via QR, SUCCESSFUL.')
-        elif not data:
-            message_body = driver.find_element(By.CSS_SELECTOR,'[aria-label="Message body"]')
-            link = message_body.find_element(By.TAG_NAME,'a').get_attribute('href')
-            driver.switch_to.new_window('tab')
-            driver.get(link)
-            answer_form()
-            print('RESERVATION via LINK, SUCCESSFUL.')
-        else:
-            print("No Link or QR code found.")
+        message_body = driver.find_element(By.CSS_SELECTOR,'[aria-label="Message body"]')
+        link = message_body.find_element(By.TAG_NAME,'a').get_attribute('href')
+        driver.switch_to.new_window('tab')
+        driver.get(link)
+        answer_form()
+        print('RESERVATION via LINK, SUCCESSFUL.')
+        # screenshot = pyautogui.screenshot()
+        # screenshot.save('screen.png')
+        # img = cv2.imread("screen.png")
+        # detector = cv2.QRCodeDetector()
+        # data, bbox, _ = detector.detectAndDecode(img)
+        # if data:
+        #     print("QR Code Data:", data)
+        #     driver.switch_to.new_window('tab')
+        #     driver.get(data)
+        #     answer_form()
+        #     # time.sleep(30) #return to 30 // can be removed
+        #     result = pyautogui.screenshot()
+        #     result.save('result.png')
+        #     print('RESERVATION via QR, SUCCESSFUL.')
+        # elif not data:
+        #     message_body = driver.find_element(By.CSS_SELECTOR,'[aria-label="Message body"]')
+        #     link = message_body.find_element(By.TAG_NAME,'a').get_attribute('href')
+        #     driver.switch_to.new_window('tab')
+        #     driver.get(link)
+        #     answer_form()
+        #     print('RESERVATION via LINK, SUCCESSFUL.')
+    else:
+        print("No Link or QR code found.")
 
 driver.quit()
 time.sleep(20)
