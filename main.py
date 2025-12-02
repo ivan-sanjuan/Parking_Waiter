@@ -84,7 +84,7 @@ if parking_folder:
     # WebDriverWait(driver,250).until(EC.visibility_of_element_located((By.CSS_SELECTOR,'[aria-label*="Unread"]')))
     if unread:
         ActionChains(driver).click(unread).perform()
-        time.sleep(10) #return to 90
+        time.sleep(30) #return to 90
         message_body = driver.find_element(By.CSS_SELECTOR,'[aria-label="Message body"]')
         link = message_body.find_element(By.TAG_NAME,'a').get_attribute('href')
         driver.switch_to.new_window('tab')
