@@ -81,7 +81,7 @@ if parking_folder:
     time.sleep(10) #return to 60
     unread = WebDriverWait(driver,39600).until(EC.presence_of_element_located((By.CSS_SELECTOR,'[aria-label*="Unread"]')))
     driver.execute_script("arguments[0].scrollIntoView();",unread)
-    WebDriverWait(driver,250).until(EC.visibility_of_element_located((By.CSS_SELECTOR,'[aria-label*="Unread"]')))
+    # WebDriverWait(driver,250).until(EC.visibility_of_element_located((By.CSS_SELECTOR,'[aria-label*="Unread"]')))
     if unread:
         ActionChains(driver).click(unread).perform()
         time.sleep(10) #return to 90
