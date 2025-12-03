@@ -85,12 +85,20 @@ if parking_folder:
     if unread:
         ActionChains(driver).click(unread).perform()
         time.sleep(30) #return to 90
-        message_body = driver.find_element(By.CSS_SELECTOR,'[aria-label="Message body"]')
-        link = message_body.find_element(By.TAG_NAME,'a').get_attribute('href')
-        driver.switch_to.new_window('tab')
-        driver.get(link)
-        answer_form()
-        print('RESERVATION via LINK, SUCCESSFUL.')
+        try:
+            message_body = driver.find_element(By.CSS_SELECTOR,'[aria-label="Message body"]')
+            link = message_body.find_element(By.TAG_NAME,'a').get_attribute('href')
+            driver.switch_to.new_window('tab')
+            driver.get(link)
+            answer_form()
+            print('RESERVATION via LINK, SUCCESSFUL.')
+        except:
+            message_body = driver.find_element(By.CSS_SELECTOR,'[aria-label="Message body"]')
+            link = message_body.find_element(By.TAG_NAME,'a').get_attribute('href')
+            driver.switch_to.new_window('tab')
+            driver.get(link)
+            answer_form()
+            print('RESERVATION via LINK, SUCCESSFUL.')
         # screenshot = pyautogui.screenshot()
         # screenshot.save('screen.png')
         # img = cv2.imread("screen.png")
