@@ -121,7 +121,7 @@ if parking_folder:
         #     answer_form()
         #     print('RESERVATION via LINK, SUCCESSFUL.')
     else:
-        print("No Link or QR code found.")
+        print("No Link code found.")
 
 driver.quit()
 time.sleep(20)
