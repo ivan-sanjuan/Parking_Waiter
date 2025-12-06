@@ -64,7 +64,7 @@ def answer_form():
                 q.find_element(By.CSS_SELECTOR,'input[value="Wednesday"]').click()
                 q.find_element(By.CSS_SELECTOR,'input[value="Thursday"]').click()
                 q.find_element(By.CSS_SELECTOR,'input[value="Friday"]').click()
-        time.sleep(5)
+        time.sleep(10)
         submit = driver.find_element(By.CSS_SELECTOR,'[data-automation-id="submitButton"]')
         driver.execute_script("arguments[0].scrollIntoView();",submit)
         time.sleep(5)
