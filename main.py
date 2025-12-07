@@ -98,7 +98,7 @@ if parking_folder:
             driver.switch_to.new_window('tab')
             driver.get(link)
             answer_form()
-            print('RESERVATION via LINK, SUCCESSFUL.')
+            print('RERUN and RESERVATION via LINK, SUCCESSFUL.')
         # screenshot = pyautogui.screenshot()
         # screenshot.save('screen.png')
         # img = cv2.imread("screen.png")
