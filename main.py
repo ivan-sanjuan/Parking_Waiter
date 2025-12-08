@@ -83,28 +83,24 @@ if parking_folder:
     driver.execute_script("arguments[0].scrollIntoView();",unread)
     # WebDriverWait(driver,250).until(EC.visibility_of_element_located((By.CSS_SELECTOR,'[aria-label*="Unread"]')))
     if unread:
-        ActionChains(driver).click(unread).perform()
-        time.sleep(30) #return to 90
-        message_body = driver.find_element(By.CSS_SELECTOR,'[role="document"]')
-        link = message_body.find_element(By.XPATH, "//*[starts-with(@href, 'https://forms.office.com/')]").get_attribute('href')
-        driver.switch_to.new_window('tab')
-        driver.get(link)
-        answer_form()
-        print('RERUN and RESERVATION via LINK, SUCCESSFUL.')
-        # except:
-        #     message_body = driver.find_element(By.CSS_SELECTOR,'[aria-label="Message body"]')
-        #     link = message_body.find_element(By.TAG_NAME,'a').get_attribute('href')
-        #     if link.startswith('https://forms.office.com/'):
-        #         driver.switch_to.new_window('tab')
-        #         driver.get(link)
-        #         answer_form()
-        #         print('RERUN and RESERVATION via LINK, SUCCESSFUL.')
-        # screenshot = pyautogui.screenshot()
-        # screenshot.save('screen.png')
-        # img = cv2.imread("screen.png")
-        # detector = cv2.QRCodeDetector()
-        # data, bbox, _ = detector.detectAndDecode(img)
-        # if data:
+        try:
+            ActionChains(driver).click(unread).perform()
+            time.sleep(30) #return to 90
+            message_body = driver.find_element(By.CSS_SELECTOR,'[role="document"]')
+            link = message_body.find_element(By.XPATH, "//*[starts-with(@href, 'https://forms.office.com/')]").get_attribute('href')
+            driver.switch_to.new_window('tab')
+            driver.get(link)
+            answer_form()
+            print('RESERVATION via LINK, SUCCESSFUL.')
+        except:
+            ActionChains(driver).click(unread).perform()
+            time.sleep(30)
+            screenshot = pyautogui.screenshot()
+            screenshot.save('screen.png')
+            img = cv2.imread("screen.png")
+            detector = cv2.QRCodeDetector()
+            data, bbox, _ = detector.detectAndDecode(img)
+            if data:
         #     print("QR Code Data:", data)
         #     driver.switch_to.new_window('tab')
         #     driver.get(data)
