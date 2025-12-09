@@ -101,21 +101,14 @@ if parking_folder:
             detector = cv2.QRCodeDetector()
             data, bbox, _ = detector.detectAndDecode(img)
             if data:
-        #     print("QR Code Data:", data)
-        #     driver.switch_to.new_window('tab')
-        #     driver.get(data)
-        #     answer_form()
-        #     # time.sleep(30) #return to 30 // can be removed
-        #     result = pyautogui.screenshot()
-        #     result.save('result.png')
-        #     print('RESERVATION via QR, SUCCESSFUL.')
-        # elif not data:
-        #     message_body = driver.find_element(By.CSS_SELECTOR,'[aria-label="Message body"]')
-        #     link = message_body.find_element(By.TAG_NAME,'a').get_attribute('href')
-        #     driver.switch_to.new_window('tab')
-        #     driver.get(link)
-        #     answer_form()
-        #     print('RESERVATION via LINK, SUCCESSFUL.')
+                print("QR Code Data:", data)
+                driver.switch_to.new_window('tab')
+                driver.get(data)
+                answer_form()
+                # time.sleep(30) #return to 30 // can be removed
+                result = pyautogui.screenshot()
+                result.save('result.png')
+                print('RESERVATION via QR, SUCCESSFUL.')
     else:
         print("No Link code found.")
 
