@@ -10,7 +10,6 @@ import cv2
 import pyautogui
 from PIL import Image
 from datetime import date, timedelta, datetime
-from urllib.parse import urljoin
 import time
 
 # REMINDERS:
