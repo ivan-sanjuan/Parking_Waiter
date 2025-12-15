@@ -74,7 +74,7 @@ options = Options()
 driver.set_window_size(1920,1080)
 url = 'https://outlook.office.com/mail/'
 driver.get(url)
-parking_folder = WebDriverWait(driver,250).until(EC.presence_of_element_located((By.CSS_SELECTOR,'[data-folder-name="parking"]')))
+parking_folder = WebDriverWait(driver,200).until(EC.presence_of_element_located((By.CSS_SELECTOR,'[data-folder-name="parking"]')))
 if parking_folder:
     driver.execute_script("arguments[0].click();",parking_folder)
     time.sleep(10) #return to 60
