@@ -109,7 +109,7 @@ if parking_folder:
                 result.save('result.png')
                 print('RESERVATION via QR, SUCCESSFUL.')
     else:
-        print("No Link code found.")
+        print("No Link or QR code found.")
 
 driver.quit()
 time.sleep(20)
