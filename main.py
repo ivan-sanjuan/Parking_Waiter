@@ -20,6 +20,11 @@ def answer_form():
     keys = key_details()
     start = WebDriverWait(driver,100).until(EC.visibility_of_element_located((By.XPATH,'//*[@id="form-main-content1"]/div/button')))
     driver.execute_script("arguments[0].click();",start)
+    time.sleep(5)
+    agree = WebDriverWait(driver,60).until(EC.visibility_of_element_located((By.CSS_SELECTOR,'[data-automation-value="I agree"]')))
+    driver.execute_script("arguments[0].scrollIntoView();",agree)
+    time.sleep(2)
+    driver.execute_script("arguments[0].click()",agree)
     test = WebDriverWait(driver,100).until(EC.visibility_of_element_located((By.CSS_SELECTOR,'[data-automation-id="questionItem"]')))
     if test.is_displayed():
         questions = driver.find_elements(By.CSS_SELECTOR,'[data-automation-id="questionItem"]')
@@ -40,11 +45,16 @@ def answer_form():
                 time.sleep(1)
                 emp_num = q.find_element(By.CSS_SELECTOR,'[data-automation-id="textInput"]')
                 emp_num.send_keys(keys[0]['first_name'])
-            elif question == 'Vehicle Make and Model':
+            elif question == 'Vehicle Make and Model (Please specify if with additional installations like roof carriers)':
                 driver.execute_script("arguments[0].scrollIntoView();",q)
                 time.sleep(1)
                 emp_num = q.find_element(By.CSS_SELECTOR,'[data-automation-id="textInput"]')
                 emp_num.send_keys(keys[0]['vehicle'])
+            elif question == 'Paint Color/Finish':
+                driver.execute_script("arguments[0].scrollIntoView",q)
+                time.sleep(1)
+                emp_num = q.find_element(By.CSS_SELECTOR,'[data-automation-id="textInput"]')
+                emp_num.send_keys(keys[0]['color'])
             elif question == 'Plate Number':
                 driver.execute_script("arguments[0].scrollIntoView();",q)
                 time.sleep(1)
@@ -62,7 +72,11 @@ def answer_form():
                 q.find_element(By.CSS_SELECTOR,'input[value="Tuesday"]').click()
                 q.find_element(By.CSS_SELECTOR,'input[value="Wednesday"]').click()
                 q.find_element(By.CSS_SELECTOR,'input[value="Thursday"]').click()
-                q.find_element(By.CSS_SELECTOR,'input[value="Friday"]').click()
+            elif question == 'Vehicle Type':
+                driver.execute_script("arguments[0].scrollIntoView",q)
+                time.sleep(1)
+                emp_num = q.find_element(By.CSS_SELECTOR,'[value="Category 4 (Motorcycle)"]').click()
+                
         time.sleep(10)
         submit = driver.find_element(By.CSS_SELECTOR,'[data-automation-id="submitButton"]')
         driver.execute_script("arguments[0].scrollIntoView();",submit)
@@ -84,16 +98,17 @@ if parking_folder:
     if unread:
         try:
             ActionChains(driver).click(unread).perform()
-            time.sleep(30) #return to 90
+            # time.sleep(30) #return to 90
             message_body = driver.find_element(By.CSS_SELECTOR,'[role="document"]')
             link = message_body.find_element(By.XPATH, "//*[starts-with(@href, 'https://forms.office.com/')]").get_attribute('href')
+            driver.execute_script("arguments[0].scrollIntoView()", link)
             driver.switch_to.new_window('tab')
             driver.get(link)
             answer_form()
             print('RESERVATION via LINK, SUCCESSFUL.')
         except:
             ActionChains(driver).click(unread).perform()
-            time.sleep(30)
+            time.sleep(10)
             screenshot = pyautogui.screenshot()
             screenshot.save('screen.png')
             img = cv2.imread("screen.png")
