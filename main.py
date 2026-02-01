@@ -119,7 +119,7 @@ if parking_folder:
                 driver.switch_to.new_window('tab')
                 driver.get(data)
                 answer_form()
-                # time.sleep(30) #return to 30 // can be removed
+                time.sleep(30) #return to 30 // can be removed
                 result = pyautogui.screenshot()
                 result.save('result.png')
                 print('RESERVATION via QR, SUCCESSFUL.')
